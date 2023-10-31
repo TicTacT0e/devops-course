@@ -1,0 +1,20 @@
+pipeline {
+    agent { label 'aws-slave' }
+    stages {
+        stage('Git rep clone') {
+            steps {
+                git credentialsId: 'auto-credentials', url: 'https://github.com/TicTacT0e/elk-stack.git', branch: 'main'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker-compose build'
+            }
+        }
+        stage('Up') {
+            steps {
+                sh 'docker-compose up'
+            }
+        }
+    }
+}
